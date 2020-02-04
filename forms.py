@@ -1,13 +1,14 @@
-from wtforms import StringField, PasswordField
+from wtforms import StringField, PasswordField, TextField
 from flask_wtf import FlaskForm
 from wtforms.validators import InputRequired, Optional, Email, Length
 
+BOOTS_CLASS = {"class": "form-control"}
 
 class UserForm(FlaskForm):
     """Form for adding playlists."""
 
     username = StringField(
-        "Username", validators=[InputRequired(), Length(min=1, max=20)]
+        "Username", validators=[InputRequired(), Length(min=1, max=20)], render_kw=BOOTS_CLASS
     )
 
     password = PasswordField(
@@ -15,7 +16,7 @@ class UserForm(FlaskForm):
     )
 
     email = StringField(
-        "Email", validators=[Optional(), Email, Length(min=1, max=50)]
+        "Email", validators=[Optional(), Email(), Length(min=1, max=50)]
     )
 
     first_name = StringField(
@@ -25,6 +26,7 @@ class UserForm(FlaskForm):
     last_name = StringField(
         "Last Name", validators=[InputRequired(), Length(min=1, max=30)]
     )
+
 
 class LoginForm(FlaskForm):
     """Form for logging in"""
@@ -36,3 +38,13 @@ class LoginForm(FlaskForm):
     password = PasswordField(
         "Password", validators=[InputRequired()]
     )
+
+
+class FeedbackForm(FlaskForm):
+    """Form for feedback"""
+
+    title = StringField(
+        "Title", validators=[InputRequired(), Length(min=1, max=100)]
+    )
+
+    content = TextField('Content', validators=[InputRequired()])

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Login/Register User!
+    {{action}} {{subject}}!
 {% endblock %}
 
 {% block content %}
@@ -12,7 +12,7 @@
     {% for field in form if field.widget.input_type != 'hidden'%}
     <div class='form-group'>
     {{ field.label }}
-    {{ field(class="form-control") }}
+    {{ field(class_="form-control") }}
 
     <span>
         {% if field.errors %}
@@ -23,7 +23,7 @@
         </span>
     </div>
     {% endfor %}
-    <button class="btn btn-primary" type="submit">Create</button>
+    <button class="btn btn-primary" type="submit">{{action}}</button>
 </form>
 
 {% endblock %}

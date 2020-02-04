@@ -13,6 +13,7 @@ def connect_db(app):
     db.app = app
     db.init_app(app)
 
+
 class User(db.Model):
     """Users"""
 
@@ -25,6 +26,8 @@ class User(db.Model):
     first_name = db.Column(db.String(30), nullable=False)
     last_name = db.Column(db.String(30), nullable=False)
 
+    feedback = db.relationship('Feedback', backref='user', cascade='all, delete')
+
     @property
     def full_name(self):
         return f"{self.first_name} {self.last_name}"
@@ -32,8 +35,8 @@ class User(db.Model):
     @classmethod
     def create_user(cls, user_details):
         hashed_pword = bcrypt.generate_password_hash(user_details['password'])
-        hashed_utf8=hashed_pword.decode('utf8')
-        user_details["password"]=hashed_utf8
+        hashed_utf8 = hashed_pword.decode('utf8')
+        user_details["password"] = hashed_utf8
         new_user = User(**user_details)
         return new_user
 
@@ -45,4 +48,13 @@ class User(db.Model):
         return False
 
 
+class Feedback(db.Model):
+    """Feedback"""
+
+    __tablename__ = 'feedback'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    title = db.Column(db.String(100), nullable=False)
+    content = db.Column(db.Text)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
