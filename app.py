@@ -29,10 +29,13 @@ def register():
         data = {k: v for k, v in form.data.items() if k != "csrf_token"}
         data["email"] = data["email"] or None
         new_user = User.create_user(data)
+        
         db.session.add(new_user)
         db.session.commit()
+
         session['username'] = new_user.username
         flash("You did it", 'good')
+        
         return redirect(f'/users/{new_user.username}')
 
     return render_template('form.html', form=form, action='Register', subject='User')
